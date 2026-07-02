@@ -8,6 +8,16 @@ html, body, #root {
   background: #05050f;
 }
 
+body {
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+  height: auto;
+}
+
 * {
   scrollbar-width: thin;
   scrollbar-color: #6366f1 transparent;

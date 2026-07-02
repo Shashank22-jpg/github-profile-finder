@@ -380,7 +380,7 @@ export default function App() {
   };
 
   return (
-    <div style={{ position: "relative", minHeight: "100%", background: "#05050f", color: "#f1f2fb", fontFamily: "Inter, sans-serif", overflow: "hidden" }}>
+    <div style={{ position: "relative", minHeight: "100vh", background: "#05050f", color: "#f1f2fb", fontFamily: "Inter, sans-serif", overflowX: "hidden" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap');
         * { box-sizing: border-box; }
@@ -482,11 +482,50 @@ export default function App() {
 
         .badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 600; background: linear-gradient(135deg, rgba(99,102,241,.25), rgba(34,211,238,.2)); border: 1px solid rgba(129,140,248,.35); color: #d8d9ff; }
 
+        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; gap: 16px; }
+        .topbar-title { display: flex; align-items: center; gap: 10px; min-width: 0; }
+        .topbar-help { display: flex; align-items: center; gap: 10px; font-size: 12.5px; color: #8b8fbf; flex-wrap: wrap; justify-content: flex-end; }
+        .hero-section { text-align: center; margin-bottom: 40px; }
+        .hero-copy { color: #a3a6cc; font-size: 16px; max-width: 560px; margin: 0 auto 32px; line-height: 1.6; }
+        .history-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
+        .profile-card-inner { display: flex; gap: 24px; flex-wrap: wrap; align-items: flex-start; }
+        .profile-main { flex: 1; min-width: 220px; }
+        .profile-meta { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 14px; font-size: 13px; color: #9a9dc2; }
+        .profile-meta > * { min-width: 0; overflow-wrap: anywhere; }
+        .profile-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .analytics-grid { display: grid; grid-template-columns: minmax(260px, 1fr) minmax(260px, 1fr); gap: 24px; }
+        .repo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+        .repo-section-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+        .footer-bar { margin-top: 90px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.08); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; color: #6b6f96; font-size: 13px; }
+        .chart-shell { width: 100%; overflow-x: auto; }
+
         select.sort-select { background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.12); color: #e6e7fb; border-radius: 10px; padding: 8px 12px; font-size: 13px; outline: none; }
+
+        @media (max-width: 860px) {
+          .topbar { flex-direction: column; align-items: flex-start; margin-bottom: 28px; }
+          .topbar-help { justify-content: flex-start; }
+          .profile-card-inner { flex-direction: column; align-items: stretch; }
+          .profile-actions { align-self: flex-start; }
+          .analytics-grid { grid-template-columns: 1fr; }
+          .footer-bar { margin-top: 60px; }
+        }
 
         @media (max-width: 720px) {
           .search-input { padding-right: 96px; font-size: 14px; }
           .search-btn span { display: none; }
+          .hero-copy { font-size: 15px; margin-bottom: 24px; }
+          .repo-grid { grid-template-columns: 1fr; }
+          .profile-meta { gap: 10px; }
+        }
+
+        @media (max-width: 480px) {
+          .topbar { margin-bottom: 24px; }
+          .hero-section { margin-bottom: 28px; }
+          .search-input { padding: 16px 84px 16px 48px; }
+          .search-btn { padding: 0 14px; }
+          .profile-actions { width: 100%; }
+          .profile-actions .icon-btn { flex: 1; }
+          .repo-section-head { align-items: flex-start; }
         }
       `}</style>
 
@@ -495,27 +534,27 @@ export default function App() {
       <div style={{ position: "relative", zIndex: 1, maxWidth: 1080, margin: "0 auto", padding: "28px 20px 80px" }}>
 
         {/* ---------- HEADER ---------- */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 40 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{ width: 38, height: 38, borderRadius: 12, background: "linear-gradient(135deg,#6366f1,#22d3ee)", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div className="topbar">
+          <div className="topbar-title">
+            <div style={{ width: 38, height: 38, borderRadius: 12, background: "linear-gradient(135deg,#6366f1,#22d3ee)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
               <Github size={20} color="#05050f" />
             </div>
             <span className="display" style={{ fontWeight: 600, fontSize: 17 }}>Orbit</span>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 12.5, color: "#8b8fbf" }}>
+          <div className="topbar-help">
             <Command size={14} /> <span>Ctrl + K to search</span>
           </div>
         </div>
 
         {/* ---------- HERO ---------- */}
-        <div className="fade-up" style={{ textAlign: "center", marginBottom: 40 }}>
+        <div className="fade-up hero-section">
           <div className="badge" style={{ marginBottom: 18 }}>
             <Sparkles size={13} /> Explore any developer's universe
           </div>
           <h1 className="display grad-text" style={{ fontSize: "clamp(32px,6vw,54px)", fontWeight: 700, margin: "0 0 14px", lineHeight: 1.1 }}>
             GitHub Profile Finder
           </h1>
-          <p style={{ color: "#a3a6cc", fontSize: 16, maxWidth: 560, margin: "0 auto 32px", lineHeight: 1.6 }}>
+          <p className="hero-copy">
             Search any GitHub user and explore repositories, followers, contributions and developer statistics.
           </p>
 
@@ -535,7 +574,7 @@ export default function App() {
           </div>
 
           {history.length > 0 && (
-            <div style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", marginTop: 18 }}>
+            <div className="history-row">
               {history.map((h) => (
                 <button key={h} className="chip" onClick={() => { setQuery(h); search(h); }}>{h}</button>
               ))}
@@ -591,18 +630,18 @@ export default function App() {
         {!loading && user && (
           <div style={{ display: "grid", gap: 26 }}>
             <GlassCard glow className="fade-up hover-lift" style={{ padding: 30 }}>
-              <div style={{ display: "flex", gap: 24, flexWrap: "wrap", alignItems: "flex-start" }}>
+              <div className="profile-card-inner">
                 <div className="avatar-ring">
                   <img src={user.avatar_url} alt={user.login} style={{ width: 88, height: 88, borderRadius: "50%", display: "block", border: "3px solid #05050f" }} />
                 </div>
-                <div style={{ flex: 1, minWidth: 220 }}>
+                <div className="profile-main">
                   <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
                     <h2 className="display" style={{ fontSize: 24, fontWeight: 600, margin: 0 }}>{user.name || user.login}</h2>
                     <span className="badge"><Award size={12} /> {analytics.level}</span>
                   </div>
                   <a href={user.html_url} target="_blank" rel="noreferrer" style={{ color: "#818cf8", fontSize: 14, textDecoration: "none" }}>@{user.login}</a>
                   {user.bio && <p style={{ color: "#c7c9e6", fontSize: 14.5, margin: "10px 0 0", lineHeight: 1.6, maxWidth: 560 }}>{user.bio}</p>}
-                  <div style={{ display: "flex", gap: 16, flexWrap: "wrap", marginTop: 14, fontSize: 13, color: "#9a9dc2" }}>
+                  <div className="profile-meta">
                     {user.company && <span style={{ display: "flex", alignItems: "center", gap: 5 }}><Building2 size={13} />{user.company}</span>}
                     {user.location && <span style={{ display: "flex", alignItems: "center", gap: 5 }}><MapPin size={13} />{user.location}</span>}
                     {user.blog && <a href={user.blog.startsWith("http") ? user.blog : `https://${user.blog}`} target="_blank" rel="noreferrer" style={{ display: "flex", alignItems: "center", gap: 5, color: "#9a9dc2", textDecoration: "none" }}><LinkIcon size={13} />{user.blog}</a>}
@@ -610,7 +649,7 @@ export default function App() {
                     <span style={{ display: "flex", alignItems: "center", gap: 5 }}><Calendar size={13} />Joined {new Date(user.created_at).toDateString().slice(4)}</span>
                   </div>
                 </div>
-                <div style={{ display: "flex", gap: 8 }}>
+                <div className="profile-actions">
                   <button className={`icon-btn ${isFav ? "active" : ""}`} onClick={toggleFav} title="Favorite"><Heart size={16} /></button>
                   <button className="icon-btn" onClick={copyLink} title="Copy link"><Copy size={16} /></button>
                   <button className="icon-btn" onClick={exportSummary} title="Export summary"><Download size={16} /></button>
@@ -638,7 +677,7 @@ export default function App() {
             </GlassCard>
 
             {/* ---------- ANALYTICS ---------- */}
-            <div style={{ display: "grid", gridTemplateColumns: "minmax(260px,1fr) minmax(260px,1fr)", gap: 24 }}>
+            <div className="analytics-grid">
               <GlassCard className="fade-up hover-lift" style={{ padding: 26 }}>
                 <h3 className="display" style={{ fontSize: 16, margin: "0 0 18px", display: "flex", alignItems: "center", gap: 8 }}><Activity size={16} style={{ color: "#22d3ee" }} /> Profile analytics</h3>
                 <Meter label="Popularity" value={analytics.popularity} icon={Star} color="#a855f7" />
@@ -672,7 +711,7 @@ export default function App() {
               {pagedRepos.length === 0 ? (
                 <GlassCard style={{ padding: 40, textAlign: "center", color: "#8b8fbf" }}>This user has no public repositories yet.</GlassCard>
               ) : (
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(280px,1fr))", gap: 16 }}>
+                <div className="repo-grid">
                   {pagedRepos.map((r, i) => <RepoCard key={r.id} repo={r} index={i} />)}
                 </div>
               )}
@@ -689,7 +728,7 @@ export default function App() {
         )}
 
         {/* ---------- FOOTER ---------- */}
-        <div style={{ marginTop: 90, paddingTop: 26, borderTop: "1px solid rgba(255,255,255,.08)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 14, color: "#6b6f96", fontSize: 13 }}>
+        <div className="footer-bar">
           <span>Built with the GitHub REST API</span>
           <div style={{ display: "flex", gap: 10 }}>
             <a className="icon-btn" href="https://github.com" target="_blank" rel="noreferrer"><Github size={15} /></a>
